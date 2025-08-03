@@ -112,7 +112,7 @@ class MovieUpdate(BaseModel):
     date: Optional[date] = None
     score: Optional[float] = Field(None, ge=0, le=100)
     overview: Optional[str] = None
-    status: Optional[str] = None
+    status: Optional[StatusEnum] = None
     budget: Optional[float] = Field(None, ge=0)
     revenue: Optional[float] = Field(None, ge=0)
 

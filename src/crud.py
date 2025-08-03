@@ -104,10 +104,13 @@ async def get_movie(db: AsyncSession, movie_id: int):
 
 async def get_movies(db: AsyncSession, page: int, per_page: int) -> tuple[list[MovieModel], int]:
     offset = (page - 1) * per_page
-    stmt = select(MovieModel).order_by(MovieModel.id.desc()).offset(offset).limit(per_page)
-    result = await db.execute(stmt)
+    result = await db.execute(
+        select(MovieModel)
+        .order_by(MovieModel.id.desc())
+        .offset(offset).limit(per_page)
+    )
     movies = result.scalars().all()
-    result = await db.execute(func.count(MovieModel.id))
+    result = await db.execute(select(func.count(MovieModel.id)))
     total_items = result.scalar_one_or_none()
     return movies, total_items
 
